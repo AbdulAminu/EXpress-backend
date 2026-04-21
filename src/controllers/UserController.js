@@ -2,6 +2,10 @@ import { userModel } from "../models/userModels.js";
 import { userValidaton, userValForLogin } from "../validator/userValidator.js";
 import bcrypt from "bcryptjs";
 import { genToken } from "../utils/tokenGen.js";
+
+export const about=(req, res)=>{
+  res.send(`<h1>This is the about page</h1>`)
+}
 export const signUp= async (req, res) => {
   const { name, email, password } = req.body;
 

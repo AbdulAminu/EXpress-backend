@@ -6,6 +6,7 @@ import {
   getSingle,
   deleteUser,
   logOut,
+  about,
 } from "../controllers/UserController.js";
 import { checkToken } from "../middleware/midwareAuth.js";
 const router = Router();
@@ -16,6 +17,7 @@ router
   .get("/Users", checkToken, fetchAllUsers)
   .get("/user/:id", checkToken, getSingle)
   .delete("/delete-user/:id", deleteUser)
-  .get("/logout", checkToken, logOut);
+  .get("/logout", checkToken, logOut)
+  .get("/about", about);
 
 export default router;
