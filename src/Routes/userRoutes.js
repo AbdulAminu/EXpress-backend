@@ -18,6 +18,6 @@ router
   .get("/user/:id", checkToken, getSingle)
   .delete("/delete-user/:id", deleteUser)
   .get("/logout", checkToken, logOut)
-  .get("/about", about);
+  .get("/", about);
 
 export default router;
