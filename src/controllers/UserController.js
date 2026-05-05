@@ -169,8 +169,8 @@ export const logOut = async (req, res) => {
   try {
     res.clearCookie("genToken", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
     });
 
     return res.status(200).json({
@@ -178,5 +178,8 @@ export const logOut = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
+    return res.status(500).json({
+      message: "Logout failed",
+    });
   }
 };
