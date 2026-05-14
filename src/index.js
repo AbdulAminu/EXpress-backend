@@ -4,6 +4,7 @@ import { connectToDb } from "./config/DBconnection.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import taskRoutes from "./routes/taskRoutes.js";
 
 dotenv.config({ path: "./.env" });
 
@@ -12,6 +13,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+app.use("/tasks", taskRoutes);
 
 app.use(
   cors({
