@@ -29,7 +29,7 @@ export const signUp = async (req, res) => {
       });
     }
 
-    const existingUser = await userModel.findOne({ email });
+    const existingUser = await User.findOne({ email });
 
     if (existingUser) {
       return res.status(400).json({
@@ -37,7 +37,7 @@ export const signUp = async (req, res) => {
       });
     }
 
-    const newUser = await userModel.create({
+    const newUser = await User.create({
       name,
       email,
       password,
@@ -79,7 +79,7 @@ export const login = async (req, res) => {
       });
     }
 
-    const existingUser = await userModel.findOne({ email });
+    const existingUser = await User.findOne({ email });
 
     if (!existingUser) {
       return res.status(404).json({
@@ -120,7 +120,7 @@ export const login = async (req, res) => {
 
 export const fetchAllUsers = async (req, res) => {
   try {
-    const user = await userModel.find().select("-password");
+    const user = await User.find().select("-password");
 
     return res.status(200).json({
       message: "Users retrieved successfully 📦",
@@ -136,7 +136,7 @@ export const getSingle = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const user = await userModel.findById(id).select("-password");
+    const user = await User.findById(id).select("-password");
 
     if (!user) {
       return res.status(404).json({
@@ -158,7 +158,7 @@ export const deleteUser = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const user = await userModel.findByIdAndDelete(id);
+    const user = await User.findByIdAndDelete(id);
 
     if (!user) {
       return res.status(404).json({
