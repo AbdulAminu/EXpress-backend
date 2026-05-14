@@ -1,33 +1,38 @@
 import express from "express";
-import Routing from "./Routes/userRoutes.js";
+import Routing from "./routes/userRoutes.js";
+import taskRoutes from "./routes/taskRoutes.js";
 import { connectToDb } from "./config/DBconnection.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import taskRoutes from "./routes/taskRoutes.js";
 
-dotenv.config({ path: "./.env" });
+dotenv.config();
 
 const app = express();
+
+app.use(cors({
+  origin: ["http://localhost:5173"],
+  methods: ["GET", "POST", "DELETE", "PUT"],
+  credentials: true,
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// routes
+app.use("/users", Routing);
 app.use("/tasks", taskRoutes);
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST", "DELETE"],
-    credentials: true,
-  })
-);
+// DB connection
+connectToDb()
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => {
+    console.error("DB connection failed:", err);
+    process.exit(1);
+  });
 
-await connectToDb();
-
-app.use(Routing);
-
+// server
 if (process.env.NODE_ENV !== "production") {
   app.listen(3000, () => {
     console.log("Server is running on port 3000");

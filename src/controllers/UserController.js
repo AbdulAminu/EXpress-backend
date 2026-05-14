@@ -1,4 +1,4 @@
-import { userModel } from "../models/userModels.js";
+import User  from "../models/userModels.js";
 import { userValidaton, userValForLogin } from "../validator/userValidator.js";
 import bcrypt from "bcryptjs";
 import { genToken } from "../utils/tokenGen.js";

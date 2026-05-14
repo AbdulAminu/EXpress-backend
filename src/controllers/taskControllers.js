@@ -1,70 +1,71 @@
-import { taskModel } from "../models/taskModel.js";
+import Task from "../models/taskModels.js"; // adjust if needed
 
 export const addTask = async (req, res) => {
-  const { task } = req.body;
-
   try {
-    if (!task) {
-      return res.status(400).json({
-        message: "Task is required",
-      });
+    const { task } = req.body;
+
+    if (!req.user) {
+      return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const newTask = await taskModel.create({
+    if (!task) {
+      return res.status(400).json({ message: "Task is required" });
+    }
+
+    const newTask = await Task.create({
       task,
-      user: req.user._id,
+      userId: req.user._id,
     });
 
     return res.status(201).json({
       message: "Task created successfully",
       data: newTask,
     });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
     return res.status(500).json({
       message: "Server error",
+      error: error.message,
     });
   }
 };
 
 export const getTasks = async (req, res) => {
   try {
-    const tasks = await taskModel.find({ user: req.user._id });
+    if (!req.user) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const tasks = await Task.find({ userId: req.user._id });
 
     return res.status(200).json({
       message: "Tasks fetched successfully",
       data: tasks,
     });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
     return res.status(500).json({
       message: "Server error",
+      error: error.message,
     });
   }
 };
 
 export const deleteTask = async (req, res) => {
-  const { id } = req.params;
-
   try {
-    const task = await taskModel.findOneAndDelete({
-      _id: id,
-      user: req.user._id,
-    });
+    const { id } = req.params;
+
+    const task = await Task.findByIdAndDelete(id);
 
     if (!task) {
-      return res.status(404).json({
-        message: "Task not found",
-      });
+      return res.status(404).json({ message: "Task not found" });
     }
 
     return res.status(200).json({
       message: "Task deleted successfully",
     });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
     return res.status(500).json({
       message: "Server error",
+      error: error.message,
     });
   }
 };
