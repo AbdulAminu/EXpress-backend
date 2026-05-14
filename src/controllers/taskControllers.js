@@ -7,7 +7,6 @@ export const addTask = async (req, res) => {
     if (!req.user) {
       return res.status(401).json({ message: "Unauthorized" });
     }
-
     if (!task) {
       return res.status(400).json({ message: "Task is required" });
     }
