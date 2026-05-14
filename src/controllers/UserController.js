@@ -37,12 +37,8 @@ export const signUp = async (req, res) => {
       });
     }
 
-    const newUser = await User.create({
-      name,
-      email,
-      password,
-    });
-
+    const newUser = new User({ name, email, password });
+await newUser.save();
     const token = await genToken(newUser._id);
 
     res.cookie("genToken", token, {
