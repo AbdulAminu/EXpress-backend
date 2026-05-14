@@ -1,6 +1,6 @@
 import express from "express";
-import Routing from "./routes/userRoutes.js";
-import taskRoutes from "./routes/taskRoutes.js";
+import Routing from "./Routes/userRoutes.js";
+import taskRoutes from "./Routes/taskRoutes.js";
 import { connectToDb } from "./config/DBconnection.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
