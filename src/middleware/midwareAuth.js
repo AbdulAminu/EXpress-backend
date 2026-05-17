@@ -8,13 +8,15 @@ const secret = process.env.JWT_SECRET;
 
 export const checkToken = async (req, res, next) => {
   try {
-    const token = req.cookies?.genToken;
+    const authHeader = req.headers.authorization;
 
-    if (!token) {
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({
         message: "No access token found",
       });
     }
+
+    const token = authHeader.split(" ")[1];  // extract the actual token
 
     const decoded = jwt.verify(token, secret);
 
@@ -27,11 +29,10 @@ export const checkToken = async (req, res, next) => {
     }
 
     req.user = user;
-
     next();
+
   } catch (err) {
     console.error(err);
-
     return res.status(401).json({
       message: "Invalid or expired token",
     });
