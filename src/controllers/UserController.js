@@ -105,6 +105,7 @@ export const login = async (req, res) => {
 
     return res.status(200).json({
       message: "Login successful 😁",
+      token: token,
     });
   } catch (err) {
     console.error(err);
@@ -182,6 +183,7 @@ export const logOut = async (req, res) => {
 
     return res.status(200).json({
       message: "Logged out successfully 👋",
+      token: token,
     });
   } catch (err) {
     console.error(err);
