@@ -17,7 +17,7 @@ router
   .get("/Users", checkToken, fetchAllUsers)
   .get("/user/:id", checkToken, getSingle)
   .delete("/delete-user/:id", deleteUser)
-  .get("/logout", checkToken, logOut)
+  .post("/logout", logOut)
   .get("/", about);
 
 export default router;
