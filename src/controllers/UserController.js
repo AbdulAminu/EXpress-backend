@@ -174,16 +174,8 @@ export const deleteUser = async (req, res) => {
 
 export const logOut = async (req, res) => {
   try {
-    res.cookie("genToken", "", {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      expires: new Date(0),
-    });
-
     return res.status(200).json({
       message: "Logged out successfully 👋",
-      token: token,
     });
   } catch (err) {
     console.error(err);
